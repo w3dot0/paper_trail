@@ -118,8 +118,8 @@ class HasPaperTrailModelTest < ActiveSupport::TestCase
       assert_equal [], @widget.versions
     end
 
-    should 'be live' do
-      assert @widget.live?
+    should 'be current_version' do
+      assert @widget.current_version?
     end
 
 
@@ -139,8 +139,8 @@ class HasPaperTrailModelTest < ActiveSupport::TestCase
         assert_match /create/i, @widget.versions.first.event
       end
 
-      should 'be live' do
-        assert @widget.live?
+      should 'be current_version' do
+        assert @widget.current_version?
       end
 
       should 'not have changes' do
@@ -179,8 +179,8 @@ class HasPaperTrailModelTest < ActiveSupport::TestCase
           assert_match /update/i, @widget.versions.last.event
         end
 
-        should 'have versions that are not live' do
-          assert @widget.versions.map(&:reify).compact.all? { |w| !w.live? }
+        should 'have versions that are not current_version' do
+          assert @widget.versions.map(&:reify).compact.all? { |w| !w.current_version? }
         end
 
         should 'have stored changes' do
@@ -851,7 +851,7 @@ class HasPaperTrailModelTest < ActiveSupport::TestCase
         context 'when reified opting out of has_one reification' do
           setup { @widget_1 = @widget.versions.last.reify(:has_one => false) }
 
-          should 'see the associated as it is live' do
+          should 'see the associated as it is current_version' do
             assert_equal 'wotsit_3', @widget_1.wotsit.name
           end
         end

@@ -91,7 +91,7 @@ module PaperTrail
     module InstanceMethods
       # Returns true if this instance is the current, live one;
       # returns false if this instance came from a previous version.
-      def live?
+      def current_version?
         source_version.nil?
       end
 
